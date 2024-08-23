@@ -3,7 +3,7 @@ import { routes } from "./routes.js";
 import { extractQueryParams } from "./utils/extract-query-params.js";
 import { json } from "./middlewares/json.js";
 
-const PORT = 3030;
+export const PORT = 3030;
 
 const server = http.createServer(async (req, res) => {
     const { method, url: path } = req;

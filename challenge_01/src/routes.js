@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { buildRoutePath } from "./utils/build-route-path.js";
 import { Database } from "./database.js";
-const tasks = [];
+
 const database = new Database();
 export const routes = [
     {
