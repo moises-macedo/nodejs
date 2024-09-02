@@ -3,8 +3,8 @@ node_modules
 
 #DATABASE
 db.json
-db
 test.db
+*.db
 
 #ENVIRONMENT
 .env
