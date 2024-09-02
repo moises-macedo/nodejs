@@ -1,2 +1,14 @@
+#DEPENDENCIES
 node_modules
+
+#DATABASE
 db.json
+db
+test.db
+
+#ENVIRONMENT
+.env
+.env.test
+
+#BUILD
+dist
