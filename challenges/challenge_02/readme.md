@@ -22,9 +22,9 @@ Nome da refeição
 
 	[] Excluir Refeição: O usuário pode apagar uma refeição registrada.
 
-	[] Listar Refeições: O usuário pode listar todas as refeições registradas por ele.
+	[x] Listar Refeições: O usuário pode listar todas as refeições registradas por ele.
 
-	[] Visualizar Refeição: O usuário pode visualizar os detalhes de uma única refeição registrada.
+	[x] Visualizar Refeição: O usuário pode visualizar os detalhes de uma única refeição registrada.
 
 Métricas do Usuário
 
