@@ -1,7 +1,8 @@
 import { FastifyInstance } from "fastify"
 import { randomUUID } from 'node:crypto'
 import { knex as knexDb } from '../database'
-import { z } from 'zod';
+import { z, ZodError } from 'zod';
+import { describe } from 'vitest';
 
 export async function meal(app: FastifyInstance) {
 
@@ -17,7 +18,10 @@ export async function meal(app: FastifyInstance) {
     })
     const { description, isDiet, name } = createtransActionsBody.parse(req.body)
 
-    console.log(req.cookies.sessionId)
+    if (!req.cookies.sessionId) {
+      return res.status(400).send({ massage: 'Unauthorized' })
+    }
+
     await knexDb('meals').insert({
       id: randomUUID(),
       name,
@@ -28,4 +32,52 @@ export async function meal(app: FastifyInstance) {
 
     return res.status(201).send()
   })
+  app.patch('/:id', async (req, res) => {
+    try {
+      const mealParams = z.object({
+        id: z.string().uuid({ message: 'Invalid ID format' })
+      });
+
+      const updateMealBody = z.object({
+        name: z.string().min(3, 'Name is required').optional(),
+        description: z.string().min(4, 'Description is required').optional(),
+        isDiet: z.boolean().optional()
+      });
+
+      const { id } = mealParams.parse(req.params);
+      const { description, name, isDiet } = updateMealBody.parse(req.body);
+
+      const idUser = req.cookies.sessionId;
+
+      if (!idUser) {
+        return res.status(401).send({ message: 'Unauthorized' });
+      }
+
+      const meal = await knexDb('meals').where('id', id).first();
+
+      if (!meal) {
+        return res.status(404).send({ message: 'Meal not found' });
+      }
+
+      const updatedMeal = {
+        ...(name && { name }),
+        ...(description && { description }),
+        ...(typeof isDiet === 'boolean' && { isDiet })
+      };
+
+
+      if (Object.keys(updatedMeal).length > 0) {
+        await knexDb('meals').where('id', id).update(updatedMeal);
+      }
+
+      return res.status(200).send({ message: 'Meal updated successfully' });
+
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).send({ message: 'Validation error', issues: error.errors });
+      }
+
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+  });
 }
