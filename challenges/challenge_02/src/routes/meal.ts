@@ -7,13 +7,6 @@ export async function meal(app: FastifyInstance) {
 
   app.post('/', async (req, res) => {
 
-    const transActionId = z.object({
-      id: z.string().uuid(),
-    })
-
-    const { id } = transActionId.parse(req.query)
-
-    console.log(id)
     const createtransActionsBody = z.object({
       name: z.string({ message: 'Name is required' }).min(3, 'Name is required'),
       description: z.string({ message: 'Description is required' })
@@ -24,13 +17,13 @@ export async function meal(app: FastifyInstance) {
     })
     const { description, isDiet, name } = createtransActionsBody.parse(req.body)
 
-
+    console.log(req.cookies.sessionId)
     await knexDb('meals').insert({
       id: randomUUID(),
       name,
       description,
       isDiet,
-      user_id: ''
+      user_id: req.cookies.sessionId
     })
 
     return res.status(201).send()

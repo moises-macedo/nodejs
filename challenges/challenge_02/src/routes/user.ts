@@ -44,17 +44,10 @@ export async function user(app: FastifyInstance) {
       return res.status(404).send({ message: 'User not found' })
     }
 
-    let  sessionId  = req.cookies.sessionId
-
-    if (!sessionId) {
-      sessionId = user.id
-
-      res.cookie('sessionId', sessionId, {
-        path: '/',
-        maxAge: 60 * 60 * 24 * 7,
-      })
-    }
-
+    res.cookie('sessionId', user.id, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    }) 
 
     return res.status(201).send()
   })
