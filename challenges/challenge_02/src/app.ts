@@ -1,11 +1,12 @@
 import fastify from 'fastify'
 import cookie from '@fastify/cookie'
-import { user } from './routes/routes.ts'
-import { errorHandler } from './errors/middleware';
+import { meal, user } from './routes/routes.ts'
 
 export const app = fastify()
-app.setErrorHandler(errorHandler)
-/* app.register(cookie) */
+app.register(cookie)
 app.register(user, {
   prefix: 'user',
+})
+app.register(meal, {
+  prefix: 'meal',
 })

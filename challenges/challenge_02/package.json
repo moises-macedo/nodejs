@@ -11,7 +11,7 @@
     "license": "ISC",
     "description": "[] - Deve ser possível criar um usuário [] - Deve ser possível identificar o usuário entre as requisições [] - Deve ser possível registrar uma refeição feita, com as seguintes informações:",
     "dependencies": {
-        "@fastify/cookie": "^9.4.0",
+        "@fastify/cookie": "^6.0.0",
         "dotenv": "^16.4.5",
         "fastify": "^4.28.1",
         "knex": "^3.1.0",
