@@ -2,7 +2,6 @@ import { FastifyInstance } from "fastify"
 import { randomUUID } from 'node:crypto'
 import { knex as knexDb } from '../database'
 import { z, ZodError } from 'zod';
-import { describe } from 'vitest';
 
 export async function meal(app: FastifyInstance) {
 
