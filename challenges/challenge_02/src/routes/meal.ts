@@ -135,4 +135,35 @@ export async function meal(app: FastifyInstance) {
       return res.status(500).send({ message: 'Internal server error' });
     }
   });
+  app.delete('/:id', async (req, res) => {
+    try {
+      const mealParams = z.object({
+        id: z.string().uuid({ message: 'Invalid ID format' })
+      });
+
+      const { id } = mealParams.parse(req.params);
+      const idUser = req.cookies.sessionId;
+
+      if (!idUser) {
+        return res.status(401).send({ message: 'Unauthorized' });
+      }
+
+      const meal = await knexDb('meals').where('id', id).first();
+
+      if (!meal) {
+        return res.status(404).send({ message: 'Meal not found' });
+      }
+
+      await knexDb('meals').where('id', id).delete()
+
+      return res.status(200).send({ message: 'Meal deleted successfully' });
+
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).send({ message: 'Validation error', issues: error.errors });
+      }
+
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+  });
 }
