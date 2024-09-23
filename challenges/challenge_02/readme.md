@@ -20,7 +20,7 @@ Nome da refeição
 
 	[x] Editar Refeição: O usuário pode editar uma refeição, alterando todos os dados registrados anteriormente.
 
-	[] Excluir Refeição: O usuário pode apagar uma refeição registrada.
+	[x] Excluir Refeição: O usuário pode apagar uma refeição registrada.
 
 	[x] Listar Refeições: O usuário pode listar todas as refeições registradas por ele.
 
@@ -28,7 +28,7 @@ Nome da refeição
 
 Métricas do Usuário
 
-	[] Recuperar Métricas: O usuário pode recuperar as seguintes métricas:
+	[x] Recuperar Métricas: O usuário pode recuperar as seguintes métricas:
 
 		Quantidade total de refeições registradas.
 		Quantidade de refeições dentro da dieta.
