@@ -135,4 +135,74 @@ export async function meal(app: FastifyInstance) {
       return res.status(500).send({ message: 'Internal server error' });
     }
   });
+  app.get('/metrics', async (req, res) => {
+    try {
+      const idUser = req.cookies.sessionId;
+
+      if (!idUser) {
+        return res.status(401).send({ message: 'Unauthorized' });
+      }
+
+      const meals = await knexDb('meals').where('user_id', idUser)
+
+      if (!meals) {
+        return res.status(404).send({ message: 'Meal not found' });
+      }
+
+      const totalMetrics = meals.length
+      const totalMealsWithinDiet = meals.filter((el) => {
+        return el.isDiet !== 0
+      })
+      const totalMealsOutsideDiet = meals.filter((el) => {
+        return el.isDiet !== 1
+      })
+      const bestSequenceMealsWithinDiet = meals.filter((el) => {
+        return el.isDiet !== 0
+      })
+
+      const result = {
+        total: totalMetrics, totalMealsWithinDiet: totalMealsWithinDiet.length, totalMealsOutsideDiet: totalMealsOutsideDiet.length, bestSequenceMealsWithinDiet
+      }
+
+      return res.status(200).send(result);
+
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).send({ message: 'Validation error', issues: error.errors });
+      }
+
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+  });
+  app.delete('/:id', async (req, res) => {
+    try {
+      const mealParams = z.object({
+        id: z.string().uuid({ message: 'Invalid ID format' })
+      });
+
+      const { id } = mealParams.parse(req.params);
+      const idUser = req.cookies.sessionId;
+
+      if (!idUser) {
+        return res.status(401).send({ message: 'Unauthorized' });
+      }
+
+      const meal = await knexDb('meals').where('id', id).first();
+
+      if (!meal) {
+        return res.status(404).send({ message: 'Meal not found' });
+      }
+
+      await knexDb('meals').where('id', id).delete()
+
+      return res.status(200).send({ message: 'Meal deleted successfully' });
+
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).send({ message: 'Validation error', issues: error.errors });
+      }
+
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+  });
 }
