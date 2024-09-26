@@ -1,6 +1,7 @@
-import { app } from "./app";
+import { app } from './app'
+import { env } from './env'
 
-const PORT = 3030
+const PORT = env.PORT
 app
   .listen({
     port: PORT,
