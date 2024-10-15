@@ -5,6 +5,12 @@ interface createUserDto extends Prisma.UserCreateInput {}
 
 export class InMemoryUsersRepository implements UsersRepository {
   public users: User[] = []
+  async findById(id: string) {
+    const user = this.users.find((el) => el.id === id)
+
+    if (!user) return null
+    return user
+  }
 
   async findByEmail(email: string) {
     const user = this.users.find((el) => el.email === email)
