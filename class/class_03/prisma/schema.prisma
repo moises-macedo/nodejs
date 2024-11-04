@@ -38,14 +38,14 @@ model CheckIn {
 }
 
 model Gym {
-  id          String    @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   description String?
   phone       String?
-  latiude     Decimal
-  longitude   Decimal?
-  
-  checkIns    CheckIn[]
+  latitude    Decimal
+  longitude   Decimal
+
+  checkIns CheckIn[]
 
   @@map("gyms")
 }
