@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 interface checkInDTO extends Prisma.CheckInUncheckedCreateInput {}
 
 export class InMemoryCheckInsRepository implements CheckInsRepository {
-  public itens: CheckIn[] = []
+  public items: CheckIn[] = []
 
   async create(data: checkInDTO) {
     const checkIn = {
@@ -16,7 +16,7 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
       validated_at: data.validated_at ? new Date(data.validated_at) : null,
       created_at: new Date(),
     }
-    this.itens.push(checkIn)
+    this.items.push(checkIn)
 
     return checkIn
   }
@@ -25,7 +25,7 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     const startOfTheDay = dayjs(date).startOf('date')
     const endtOfTheDay = dayjs(date).endOf('date')
 
-    const checkOnSameDAte = this.itens.find((el) => {
+    const checkOnSameDAte = this.items.find((el) => {
       const checkInDate = dayjs(el.created_at)
       const isOnSameDate =
         checkInDate.isAfter(startOfTheDay) && checkInDate.isBefore(endtOfTheDay)
