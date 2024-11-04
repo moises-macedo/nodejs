@@ -1,4 +1,8 @@
-import { MaxdistanceError, MaxNumberOfCheckInsError, ResourceNotFound } from '@/errors'
+import {
+  MaxdistanceError,
+  MaxNumberOfCheckInsError,
+  ResourceNotFound,
+} from '@/errors'
 import { CheckInsRepository, GymsRepository } from '@/repositories'
 import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coordinates'
 import { CheckIn } from '@prisma/client'
