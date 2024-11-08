@@ -1,3 +1,5 @@
-export * from './Authenticate/authenticate'
-export * from './CreateUser/createUser'
-export * from './Profile/profile'
+export * from './users/Authenticate/authenticate'
+export * from './users/CreateUser/createUser'
+export * from './users/Profile/profile'
+
+export * from './gyms/CreateGym/createGym'

@@ -6,5 +6,5 @@ export async function user(app: FastifyInstance) {
   app.post('/users', createUser)
   app.post('/users/sessions', authenticate)
 
-  app.post('/users/profile', { onRequest: [verifyJWT] }, profile)
+  app.get('/users/profile', { onRequest: [verifyJWT] }, profile)
 }
