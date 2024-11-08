@@ -7,7 +7,7 @@ interface GetUserProfileUseCaseReq {
 }
 
 interface GetUserProfileUseCaseResponse {
-  user: User
+  user: Omit<User, 'password_hash'>
 }
 
 export class GetUserProfileUseCase {
@@ -21,7 +21,11 @@ export class GetUserProfileUseCase {
     if (!user) {
       throw new ResourceNotFound()
     }
+    // eslint-disable-next-line
+    const { password_hash, ...userWithoutPassword } = user
 
-    return { user }
+    return {
+      user: userWithoutPassword,
+    }
   }
 }

@@ -1,2 +1,3 @@
-export * from './Authenticate'
-export * from './CreateUser'
+export * from './Authenticate/authenticate'
+export * from './CreateUser/createUser'
+export * from './Profile/profile'
