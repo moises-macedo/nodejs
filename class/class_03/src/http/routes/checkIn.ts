@@ -1,12 +1,20 @@
 import { FastifyInstance } from 'fastify'
-import { createGym } from '../controllers'
 import { verifyJWT } from '../middlewares'
-import { nearby } from '../controllers/gyms/Nearby/nearby'
-import { search } from '../controllers/gyms/Search/search'
+
+import {
+  createCheckIn,
+  history,
+  metrics,
+  validate,
+} from '../controllers/checkIn'
 
 export async function checkIn(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
-  app.post('/gym', createGym)
-  app.get('/gym/nearby', nearby)
-  app.get('/gym/search', search)
+
+  app.post('/check-ins/:gymId', createCheckIn)
+
+  app.get('/check-ins/history', history)
+  app.get('/check-ins/metrics', metrics)
+
+  app.patch('/check-ins/:checkInId/validate', validate)
 }

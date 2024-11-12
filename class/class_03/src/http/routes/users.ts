@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { createUser, authenticate, profile } from '../controllers'
+import { createUser, authenticate, profile } from '../controllers/users'
 import { verifyJWT } from '../middlewares'
 
 export async function user(app: FastifyInstance) {
