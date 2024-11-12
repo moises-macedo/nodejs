@@ -37,6 +37,7 @@
     "vitest": "2.1.2"
   },
   "dependencies": {
+    "@fastify/cookie": "6.0.0",
     "@fastify/jwt": "9.0.1",
     "@prisma/client": "5.20.0",
     "@vitest/coverage-v8": "2.1.2",

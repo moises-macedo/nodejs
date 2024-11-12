@@ -13,7 +13,7 @@ describe('History (e2e)', () => {
     vi.useRealTimers()
   })
   it('should be able to list history gym', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { token } = await createAndAuthenticateUser(app, 'ADMIN')
 
     await request(app.server)
       .post('/gym')

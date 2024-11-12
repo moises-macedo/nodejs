@@ -1,40 +1,25 @@
 import { InvalidCredentialsError } from '@/errors'
-import { makeAuthenticateUseCase } from '@/useCases/factories'
+
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 
-export const authenticate = async (req: FastifyRequest, res: FastifyReply) => {
+export const refreshToken = async (req: FastifyRequest, res: FastifyReply) => {
+  await req.jwtVerify({ onlyCookie: true })
   try {
-    const authenticateBodySchema = z.object({
-      email: z.string().email(),
-      password: z.string().min(6),
-    })
-
-    const { email, password } = authenticateBodySchema.parse(req.body)
-
-    const { user } = await makeAuthenticateUseCase().execute({
-      email,
-      password,
-    })
-
+    const { role, sub } = req.user
     const token = await res.jwtSign(
-      {
-        role: user.role,
-      },
+      { role },
       {
         sign: {
-          sub: user.id,
+          sub,
         },
       },
     )
 
     const refreshToken = await res.jwtSign(
-      {
-        role: user.role,
-      },
+      { role },
       {
         sign: {
-          sub: user.id,
+          sub,
           expiresIn: '7d',
         },
       },

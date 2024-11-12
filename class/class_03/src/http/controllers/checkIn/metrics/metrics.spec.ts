@@ -13,7 +13,7 @@ describe('Metrics (e2e)', () => {
     vi.useRealTimers()
   })
   it('should be able to get the count of check ins', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { token } = await createAndAuthenticateUser(app, 'ADMIN')
 
     await request(app.server)
       .post('/gym')

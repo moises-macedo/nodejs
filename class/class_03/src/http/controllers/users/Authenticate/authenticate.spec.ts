@@ -11,7 +11,7 @@ describe('Register (e2e)', () => {
     await app.close()
   })
   it('should be able to login', async () => {
-    await createAndAuthenticateUser(app)
+    await createAndAuthenticateUser(app, 'ADMIN')
 
     const res = await request(app.server).post('/users/sessions').send({
       email: 'johndoe@example.com',
