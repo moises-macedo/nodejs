@@ -1,10 +1,27 @@
 import fastify from 'fastify'
-import { user } from './http/routes/users'
+import fastifyJwt from '@fastify/jwt'
+import fastifyCookie from '@fastify/cookie'
+import { user, gyms, checkIn } from './http/routes/routes'
 import { ZodError } from 'zod'
+import { env } from './env'
 
 export const app = fastify()
 
+app.register(fastifyJwt, {
+  secret: env.SUPER_SECRET_JWT,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  sign: {
+    expiresIn: '10m',
+  },
+})
+app.register(fastifyCookie)
+
 app.register(user)
+app.register(gyms)
+app.register(checkIn)
 
 app.setErrorHandler((err, _, reply) => {
   if (err instanceof ZodError) {
